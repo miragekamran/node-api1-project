@@ -1,5 +1,6 @@
 const express = require("express");
 const db = require("./database.js");
+const cors = require("cors");
 
 const server = express();
 
@@ -7,19 +8,18 @@ const server = express();
 // to parse JSON request bodies. We'll go more into detail about this later.
 server.use(express.json());
 
+server.use(cors());
+////////--------------/////////////
+
+// Get Users
 server.get("/api/users", (req, res) => {
   const users = db.getUsers();
 
-//   if (user) {
-//     res.json(user);
-//   } else {
-//     res.status(500).json({
-//       errorMessage: "The user with the specified ID does not exist.",
-//     });
-//   }
   res.json(users);
 });
+////////--------------/////////////
 
+// Get Users By ID
 server.get("/api/users/:id", (req, res) => {
   const user = db.getUserById(req.params.id);
 
@@ -31,7 +31,9 @@ server.get("/api/users/:id", (req, res) => {
     });
   }
 });
+////////--------------/////////////
 
+// Create New User
 server.post("/api/users", (req, res) => {
   // never trust data coming from the client,
   // always validate it to some degree. make sure it's what you're expecting
@@ -39,15 +41,18 @@ server.post("/api/users", (req, res) => {
     return res.status(400).json({
       message: "Please provide name and bio for the user.",
     });
-  } 
+  }
 
   const newUser = db.createUser({
     name: req.body.name,
+    bio: req.body.bio,
   });
 
   res.status(201).json(newUser);
 });
+////////--------------/////////////
 
+// Update User
 server.put("/api/users/:id", (req, res) => {
   const user = db.getUserById(req.params.id);
   if (user) {
@@ -62,7 +67,9 @@ server.put("/api/users/:id", (req, res) => {
     });
   }
 });
+////////--------------/////////////
 
+//Delete User
 server.delete("/api/users/:id", (req, res) => {
   const user = db.getUserById(req.params.id);
 
@@ -75,6 +82,7 @@ server.delete("/api/users/:id", (req, res) => {
     });
   }
 });
+////////--------------/////////////
 
 server.listen(8000, () => {
   console.log("server started on port 8000");
