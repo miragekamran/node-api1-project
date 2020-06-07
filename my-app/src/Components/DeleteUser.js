@@ -3,7 +3,7 @@ import axiosWithAuth from '../Utils/axiosWithAuth';
 import styled from 'styled-components';
 import {Button} from '@material-ui/core';
 
-export default function UserCard() {
+export default function DeleteUser() {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {

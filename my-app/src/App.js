@@ -2,13 +2,15 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CreateUser from './Components/CreateUser';
-import UserCard from './Components/UserCard';
+import DeleteUser from './Components/DeleteUser';
+// import UpdateUser from './Components/UpdateUser';
 
 function App() {
   return (
     <div className="App">
-      <CreateUser/>
-      <UserCard />
+      <CreateUser />
+      {/* <UpdateUser /> */}
+      <DeleteUser />
     </div>
   );
 }
