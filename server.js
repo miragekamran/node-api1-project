@@ -3,6 +3,7 @@ const db = require("./database.js");
 const cors = require("cors");
 
 const server = express();
+const port = process.env.PORT || 8000
 
 server.use(express.json());
 
@@ -81,6 +82,6 @@ server.delete("/api/users/:id", (req, res) => {
 });
 //////////////////
 
-server.listen(8000, () => {
-    console.log("server started on port 8000");
+server.listen(port, () => {
+    console.log(`server running at http://localhost:${port}`);
 });
