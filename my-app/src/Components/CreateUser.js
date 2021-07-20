@@ -1,54 +1,43 @@
-import React, { Component } from "react";
-import axiosWithAuth from "../Utils/axiosWithAuth";
+import React from "react";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { render } from "react-dom";
 
-export default class CreateUser extends Component {
-  state = {
-    newUser: {
-      name: "",
-      bio: "",
-    },
-  };
+function AddUser() {
+    const { register, handleSubmit, errors } = useForm();
+    const onSubmit = (data) => {
+        axios
+            .post("https://apii-server.herokuapp.com/users", data)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            .finally(() => window.location.reload());
+    };
 
-  addUser = (e) => {
-    e.preventDefault();
-    axiosWithAuth()
-      .post("users", this.state.newUser)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  handleChange = (e) => {
-    this.setState({
-      newUser: {
-        ...this.state.newUser,
-        [e.target.name]: e.target.value,
-      },
-    });
-  };
-
-  render() {
     return (
-      <form onSubmit={this.addUser}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={this.state.newUser.name}
-          onChange={this.handleChange}
-        />
-        <div />
-        <input
-          type="text"
-          name="bio"
-          placeholder="Bio"
-          value={this.state.newUser.bio}
-          onChange={this.handleChange}
-        />
-        <div />
-        <button>Add User</button>
-      </form>
+        <>
+            <h3>Add New User</h3>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <input
+                    type="text"
+                    placeholder="name"
+                    name="name"
+                    ref={register({ required: true, maxLength: 80 })}
+                />
+                <input
+                    type="text"
+                    placeholder="bio"
+                    name="bio"
+                    ref={register({ required: true, maxLength: 100 })}
+                />
+
+                <input type="submit" />
+            </form>
+        </>
     );
-  }
 }
+
+export default AddUser;
