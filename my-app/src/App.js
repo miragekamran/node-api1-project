@@ -11,7 +11,7 @@ function App() {
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState([]);
 
-    const { register, handleSubmit, errors } = useForm();
+    const { register, handleSubmit } = useForm();
     const onSubmit = (submittedData) => {
         axios
             .put(
